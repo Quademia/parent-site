@@ -1,0 +1,285 @@
+/* quademia-parent-site/styles/legal.css
+ *
+ * The privacy policy and the terms of service. A new file rather than
+ * more of site.css, per CLAUDE.md — legal pages are their own domain and
+ * they are the longest thing on the site by an order of magnitude.
+ *
+ * Two ideas drive the layout:
+ *
+ *  1. **Section numbers come from CSS counters, not from the text.**
+ *     A legal document gets amended by inserting and deleting clauses,
+ *     and hand-typed numbers go wrong the first time that happens — the
+ *     contents list says 9 and the heading says 10. Here the contents
+ *     list and the headings each run their own counter over the same
+ *     source array, so both renumber themselves and neither can drift.
+ *
+ *  2. **It has to be readable on a phone.** The audience is nurses
+ *     reading on a handset, and a terms page nobody can read is a terms
+ *     page nobody agreed to. Same 768px breakpoint as everywhere else.
+ */
+
+/* ─────────────────────────────────────────────────────
+ * Document head — title, status, dates
+ * ───────────────────────────────────────────────────── */
+
+.legal-head {
+  padding-bottom: 26px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 30px;
+}
+
+.legal-title {
+  font-size: 30px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.25;
+  margin-bottom: 10px;
+}
+
+.legal-standfirst {
+  font-size: 16px;
+  color: var(--text-muted);
+}
+
+/* The draft banner. Amber rather than the site's teal on purpose — this
+ * is the one block on the page that must not read as decoration. It has
+ * role="note" in the markup so it is announced, not just seen. */
+.legal-status {
+  margin-top: 22px;
+  padding: 16px 18px;
+  border: 1px solid #f0c66a;
+  border-left: 4px solid #d99b1e;
+  border-radius: var(--radius);
+  background: #fdf8ec;
+  font-size: 14px;
+}
+
+.legal-status strong { font-weight: 700; }
+.legal-status p + p { margin-top: 9px; }
+
+/* Key/value strip: Version · Last updated · Applies to */
+.legal-meta {
+  margin-top: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 28px;
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+.legal-meta-key {
+  display: block;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-faint);
+}
+
+.legal-meta-val { color: var(--text); }
+
+/* ─────────────────────────────────────────────────────
+ * Contents
+ * ───────────────────────────────────────────────────── */
+
+.legal-toc {
+  padding: 18px 20px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--white);
+  margin-bottom: 38px;
+}
+
+.legal-toc-label {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--text-faint);
+  margin-bottom: 12px;
+}
+
+.legal-toc-list {
+  list-style: none;
+  counter-reset: legal-toc;
+  display: grid;
+  gap: 7px;
+}
+
+.legal-toc-list li { counter-increment: legal-toc; }
+
+.legal-toc-list a {
+  color: var(--text);
+  font-size: 14px;
+}
+
+.legal-toc-list a::before {
+  content: counter(legal-toc) ".";
+  display: inline-block;
+  min-width: 24px;
+  color: var(--text-faint);
+  font-variant-numeric: tabular-nums;
+}
+
+.legal-toc-list a:hover { color: var(--accent); }
+
+/* ─────────────────────────────────────────────────────
+ * Sections
+ * ───────────────────────────────────────────────────── */
+
+.legal-body { counter-reset: legal-section; }
+
+.legal-section { counter-increment: legal-section; }
+
+.legal-section + .legal-section { margin-top: 38px; }
+
+.legal-h2 {
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  line-height: 1.3;
+  margin-bottom: 14px;
+  /* Anchor links from the contents list land under the sticky-free
+   * header, but a little breathing room still reads better. */
+  scroll-margin-top: 20px;
+}
+
+.legal-h2::before {
+  content: counter(legal-section) ". ";
+  color: var(--text-faint);
+  font-variant-numeric: tabular-nums;
+}
+
+.legal-h3 {
+  font-size: 15px;
+  font-weight: 700;
+  margin: 22px 0 9px;
+}
+
+.legal-section p + p,
+.legal-section p + ul,
+.legal-section p + ol,
+.legal-section ul + p,
+.legal-section ol + p { margin-top: 12px; }
+
+.legal-section ul,
+.legal-section ol { padding-left: 22px; }
+
+.legal-section li + li { margin-top: 7px; }
+
+.legal-section strong { font-weight: 700; }
+
+/* ─────────────────────────────────────────────────────
+ * Tables — legal bases, processors, retention
+ * ───────────────────────────────────────────────────── */
+
+/* The wrapper scrolls, not the page. A table that widens the body is a
+ * horizontal scrollbar on every phone. */
+.legal-table-wrap {
+  margin-top: 14px;
+  overflow-x: auto;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--white);
+}
+
+.legal-table {
+  width: 100%;
+  min-width: 460px;
+  border-collapse: collapse;
+  font-size: 13.5px;
+}
+
+.legal-table th,
+.legal-table td {
+  text-align: left;
+  vertical-align: top;
+  padding: 11px 14px;
+  border-bottom: 1px solid var(--border);
+}
+
+.legal-table thead th {
+  background: var(--primary-light);
+  font-weight: 700;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--primary);
+}
+
+.legal-table tbody tr:last-child th,
+.legal-table tbody tr:last-child td { border-bottom: 0; }
+
+/* ⚠ Must NOT be `white-space: nowrap`. It was, on the assumption that a
+ * row label is a short phrase. In the legal-basis table it is a whole
+ * clause ("Send service emails — receipts, invitations, password
+ * resets…"), and an unwrappable first column pushed the other two
+ * clean off the right-hand edge — on a 1200px desktop, not just a
+ * phone. Auto table layout divides the width sensibly once every cell
+ * is allowed to wrap. */
+.legal-table tbody th { font-weight: 700; }
+
+/* Keep the reason/basis columns from being squeezed to a word each by a
+ * long first column. Percentages are hints under auto layout, not hard
+ * widths, so the shorter processors table still renders naturally. */
+.legal-table th:first-child,
+.legal-table td:first-child { width: 38%; }
+
+.legal-table th:last-child,
+.legal-table td:last-child { width: 26%; }
+
+/* ─────────────────────────────────────────────────────
+ * Inset note — an aside inside a section
+ * ───────────────────────────────────────────────────── */
+
+.legal-note {
+  margin-top: 14px;
+  padding: 13px 16px;
+  border-left: 3px solid var(--accent);
+  background: var(--primary-light);
+  border-radius: 0 var(--radius) var(--radius) 0;
+  font-size: 14px;
+}
+
+.legal-note p + p { margin-top: 9px; }
+
+/* A blank a professional or Sam has to fill before this goes live. It is
+ * styled loudly so an unfilled one cannot survive a read-through. */
+/* ⚠ Must NOT be `white-space: nowrap`. It was, and the longest blank —
+ * the liability cap, a whole clause of placeholder text — pushed the
+ * terms page into a horizontal scrollbar on a 390px phone. A blank holds
+ * a sentence as often as it holds a number, so it wraps like ordinary
+ * text; `box-decoration-break: clone` keeps the highlight and the dashed
+ * underline on every line rather than only the first. */
+.legal-blank {
+  background: #fdf8ec;
+  border-bottom: 1px dashed #d99b1e;
+  padding: 0 3px;
+  font-weight: 700;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+
+/* ─────────────────────────────────────────────────────
+ * Foot of the document
+ * ───────────────────────────────────────────────────── */
+
+.legal-foot {
+  margin-top: 44px;
+  padding-top: 22px;
+  border-top: 1px solid var(--border);
+  font-size: 13.5px;
+  color: var(--text-muted);
+}
+
+/* ─────────────────────────────────────────────────────
+ * Phones
+ * ───────────────────────────────────────────────────── */
+
+@media (max-width: 768px) {
+  .legal-title { font-size: 25px; }
+  .legal-standfirst { font-size: 15px; }
+  .legal-h2 { font-size: 18px; }
+  .legal-toc { padding: 16px 16px; margin-bottom: 30px; }
+  .legal-section + .legal-section { margin-top: 32px; }
+  .legal-meta { gap: 12px 22px; }
+}
