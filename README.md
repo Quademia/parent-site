@@ -13,14 +13,21 @@ sign-in, where one Quademia account works across every product.
 Deliberately identical to the MyNclex app, so the two migrate together
 instead of drifting apart:
 
-- Next.js 16 + TypeScript + React 19 (App Router)
-- Deployed to a Cloudflare Worker via `@opennextjs/cloudflare`
+- Next.js 16.3.0 + TypeScript 6 + React 19 (App Router)
+- Deployed to a Cloudflare Worker via `@opennextjs/cloudflare` 1.20.2
 - No database, no login, no secrets
 
 Production builds pass `--webpack` to `next build`. Next 16 defaults to
-Turbopack for production builds, but `@opennextjs/cloudflare` 1.19.x does
+Turbopack for production builds, but `@opennextjs/cloudflare` 1.19.x did
 not support Turbopack's chunk layout — the Worker boots and then fails the
 first request with a `ChunkLoadError`. `next dev` still uses Turbopack.
+
+⚠ Two version ceilings are deliberate, not laziness: **TypeScript stays on
+6** (`typescript-eslint` refuses TS 7 outright) and **ESLint stays on 9**
+(three plugins bundled by `eslint-config-next` are peer-capped at `^9` and
+break at runtime on 10). `@opennextjs/cloudflare` is pinned **exactly** —
+a caret floats it past our Next version and `npm install` fails. Full
+detail in `CLAUDE.md` → *Versions*.
 
 ## Running it
 

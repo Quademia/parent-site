@@ -1,6 +1,7 @@
 # CLAUDE.md — Quademia parent site
 
-Last updated: 2026-08-10 (repo created)
+Last updated: 2026-08-10 (repo created; dependencies taken to latest the
+same day — see *Versions* below)
 
 ## What This Is
 
@@ -67,9 +68,45 @@ forever.
    Ghana, the US, the UK and Canada. A Claude draft is a draft.
 
 5. **Production builds use webpack, not Turbopack** (`--webpack` on
-   `next build`) — `@opennextjs/cloudflare` 1.19.x cannot load Turbopack's
-   chunk layout and the Worker fails its first request. Dev still uses
-   Turbopack.
+   `next build`) — `@opennextjs/cloudflare` 1.19.x could not load
+   Turbopack's chunk layout and the Worker failed its first request. Dev
+   still uses Turbopack. ⓘ **Not re-tested on 1.20.2** — the flag was kept
+   because it works, not because the limitation was re-confirmed. Dropping
+   it is a small experiment for a future session, and one worth doing here
+   *before* MyNclex, since a broken build on three pages costs nothing.
+
+## Versions
+
+⭐ **Every dependency is pinned or floors at a known-good version, and the
+two apps are meant to move together.** Taken to latest on 2026-08-10:
+`next 16.3.0`, `react`/`react-dom 19.2.8`, `@opennextjs/cloudflare 1.20.2`,
+`typescript ^6.0.3`, `eslint ^9.39.5`. `npm audit` reports **0
+vulnerabilities**.
+
+⚠ **"Latest" is not always installable, and two ceilings were found the
+hard way:**
+- **TypeScript 7 breaks linting.** `typescript-eslint` refuses outright —
+  *"typescript-eslint does not support TS 7.0"* — and its declared range is
+  `>=4.8.4 <6.1.0`. **6.0.3 is the newest usable TypeScript.**
+- **ESLint 10 breaks `eslint-plugin-react`** at runtime, inside
+  `detectReactVersion`. `eslint-config-next` itself accepts ESLint 10, but
+  three plugins it bundles are peer-capped at `^9`, so the install only
+  warns and the failure appears when lint actually runs. **9.39.5 is the
+  newest usable ESLint.**
+
+⚠ **`@opennextjs/cloudflare` must stay pinned EXACTLY**, never `^`. A caret
+floats it to a release whose peer range excludes our Next, and `npm
+install` then fails outright — with only the lockfile hiding it until
+someone deletes `node_modules`.
+
+ⓘ **`@types/node` tracks the CI runtime (Node 22), not npm's latest.** The
+types describe a Node version; matching the newest published major would
+describe a runtime we do not run.
+
+ⓘ **Next 16.3.0 writes its own block into this file** (the
+`nextjs-agent-rules` markers at the bottom) every time `next dev` starts.
+It is committed rather than fought — deleting it only re-creates an
+uncommitted change. To stop it: `agentRules: false` in `next.config.ts`.
 
 ## Branching workflow
 
@@ -114,3 +151,13 @@ minimalism, deliberately.**
   decision that created this repo.
 - `mybackpacc-byte/qacademy-gamma` — MyNMCLicensure + MyTeacher, older
   stack, still on QAcademy branding.
+
+<!-- BEGIN:nextjs-agent-rules -->
+
+# This is NOT the Next.js you know
+
+This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` (resolved from this file's directory; in monorepos the `next` package may not be visible from the repo root) before writing any code. Heed deprecation notices.
+
+This block is written and re-added by `next dev` — verify at `node_modules/next/dist/server/lib/generate-agent-files.js`. Removing it from a diff only re-creates the uncommitted change; committing it with your work keeps the tree clean.
+
+<!-- END:nextjs-agent-rules -->

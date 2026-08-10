@@ -12,20 +12,20 @@
     "cf:deploy": "npx @opennextjs/cloudflare build -- --webpack && wrangler deploy"
   },
   "dependencies": {
-    "@opennextjs/cloudflare": "1.19.6",
-    "next": "16.2.4",
-    "react": "19.2.4",
-    "react-dom": "19.2.4",
-    "wrangler": "^4.83.0"
+    "@opennextjs/cloudflare": "1.20.2",
+    "next": "16.3.0",
+    "react": "19.2.8",
+    "react-dom": "19.2.8",
+    "wrangler": "^4.120.0"
   },
   "devDependencies": {
-    "@tailwindcss/postcss": "^4",
-    "@types/node": "^20",
-    "@types/react": "^19",
-    "@types/react-dom": "^19",
-    "eslint": "^9",
-    "eslint-config-next": "16.2.4",
-    "tailwindcss": "^4",
-    "typescript": "^5"
+    "@tailwindcss/postcss": "^4.3.3",
+    "@types/node": "^22",
+    "@types/react": "^19.2.18",
+    "@types/react-dom": "^19.2.4",
+    "eslint": "^9.39.5",
+    "eslint-config-next": "16.3.0",
+    "tailwindcss": "^4.3.3",
+    "typescript": "^6.0.3"
   }
 }
