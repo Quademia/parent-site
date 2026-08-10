@@ -1,0 +1,49 @@
+name: Deploy prod Worker (workspace CF)
+
+on:
+  push:
+    branches:
+      - prod
+
+# One deploy at a time. A second push while one is in flight waits rather
+# than racing it.
+concurrency:
+  group: prod-deploy
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    name: Deploy quademia-parent-site to workspace CF
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v5
+
+      - name: Set up Node
+        uses: actions/setup-node@v5
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm clean-install
+
+      # ⓘ No `env:` block — see the long note in deploy-dev.yml. This site
+      # has no public env values. If one is ever added it goes here too,
+      # with the PROD value, and the build step carries no `--env prod`
+      # (only the deploy below does) so nothing else in this pipeline
+      # would supply it.
+      - name: Build OpenNext bundle
+        run: npm run cf:build
+
+      # ⚠ `--env prod` selects the env.prod block in wrangler.jsonc — the
+      # workspace account, the prod Worker name, and (once attached) the
+      # quademia.com custom domain. Without it this would deploy the dev
+      # Worker using the prod token, which the account pinning would
+      # refuse.
+      - name: Deploy to workspace CF
+        uses: cloudflare/wrangler-action@v4
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN_PROD }}
+          command: deploy --env prod

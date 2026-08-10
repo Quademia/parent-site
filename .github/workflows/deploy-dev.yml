@@ -1,4 +1,4 @@
-name: Deploy site (workspace CF)
+name: Deploy dev Worker (personal CF)
 
 on:
   push:
@@ -8,12 +8,12 @@ on:
 # One deploy at a time. A second push while one is in flight waits rather
 # than racing it.
 concurrency:
-  group: site-deploy
+  group: dev-deploy
   cancel-in-progress: false
 
 jobs:
   deploy:
-    name: Deploy quademia-parent-site to workspace CF
+    name: Deploy quademia-parent-site-dev to personal CF
     runs-on: ubuntu-latest
 
     steps:
@@ -37,14 +37,16 @@ jobs:
       # binding) silently shipped a bundle with `undefined` in it for months.
       #
       # This site has no public env values, no keys and no database, so the
-      # trap does not exist here. If one is ever added, it must go in BOTH
-      # wrangler.jsonc AND an `env:` block on this step — read the mynclex
+      # trap does not exist here. If one is ever added it must go in BOTH
+      # wrangler.jsonc AND an `env:` block on this step — in this file AND in
+      # deploy-prod.yml, with each environment's own value. Read the mynclex
       # deploy workflows before doing it.
       - name: Build OpenNext bundle
         run: npm run cf:build
 
-      - name: Deploy to workspace CF
+      # No `--env` flag: the top-level wrangler.jsonc block IS dev.
+      - name: Deploy to personal CF
         uses: cloudflare/wrangler-action@v4
         with:
-          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN_DEV }}
           command: deploy

@@ -31,20 +31,31 @@ npm run dev
 
 Serves on <http://localhost:3000>.
 
-## Deploying
+## Branches and deploying
 
-Push to `main`. GitHub Actions builds the OpenNext bundle and deploys the
-Worker to the **workspace** Cloudflare account (`qacademynurses`) — the
-account that owns both the prod MyNclex Worker and the `quademia.com` DNS
-zone.
+Two long-lived branches, two Cloudflare accounts — the same shape as the
+MyNclex repo, so there is one release routine in the family rather than
+two:
 
-There is **one** deployed environment, on purpose. See the comment at the
-top of `wrangler.jsonc` for why, and for what would change that.
+| Branch | Deploys to | Cloudflare account | Address |
+| --- | --- | --- | --- |
+| `main` | `quademia-parent-site-dev` | personal | `…workers.dev` only |
+| `prod` | `quademia-parent-site` | workspace (`qacademynurses`) | `quademia.com` (once attached) |
 
-**Required repository secret:** `CLOUDFLARE_API_TOKEN` — a Cloudflare API
-token scoped to the workspace account. It needs **Zone** permission as well
-as Workers permission if `wrangler.jsonc` declares custom domains, because
-attaching one writes a DNS record.
+Merging `main` into `prod` publishes. Both directions need Sam's explicit
+approval first.
+
+⚠ **The custom domain can only ever be on prod.** `quademia.com`'s DNS zone
+lives on the workspace account, and Cloudflare will not route a custom
+domain to a Worker on a different account. The dev Worker is reachable at
+its `workers.dev` address and nowhere else — by design, not by omission.
+
+**Required repository secrets:**
+
+- `CLOUDFLARE_API_TOKEN_DEV` — scoped to the **personal** account.
+- `CLOUDFLARE_API_TOKEN_PROD` — scoped to the **workspace** account. This
+  one also needs **Zone** permission, not just Workers permission, because
+  attaching the custom domain writes a DNS record.
 
 ## Relationship to the other repos
 

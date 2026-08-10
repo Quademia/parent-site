@@ -71,16 +71,33 @@ forever.
    chunk layout and the Worker fails its first request. Dev still uses
    Turbopack.
 
-## Deploying
+## Branching workflow
 
-Push to `main` → GitHub Actions → the workspace Cloudflare account.
+Two long-lived branches, matching the MyNclex repo so there is **one**
+release routine in the family rather than two:
 
-**One environment, deliberately.** No database, no accounts, nothing a
-bad deploy can corrupt, and a failed build leaves the last good version
-serving. `npm run dev` is the test environment.
+- **`main`** — stable. Deploys the **dev** Worker to the *personal*
+  Cloudflare account. Reachable at its `workers.dev` address only.
+- **`prod`** — released. Deploys the **live** Worker to the *workspace*
+  Cloudflare account, which serves `quademia.com`.
 
-⚠ Still get Sam's explicit approval before pushing to `main`, since a
-push here deploys straight to the public site.
+⚠ **The custom domain can only ever be on prod.** `quademia.com`'s DNS
+zone is on the workspace account and Cloudflare will not route a custom
+domain across accounts. A dev copy at `quademia.com` is not possible and
+is not a gap to close.
+
+⚠ **Ask Sam for explicit approval before merging to `main`, and again
+before releasing `main` → `prod`.** Same rule as MyNclex.
+
+Session work happens on a branch, not directly on `main`.
+
+⚠ This repo was created with a single deploy workflow and gained the
+second one the same day (2026-08-10) — Sam's call, on the grounds that it
+fits how the family already works. The original reasoning for one
+environment is not wrong on the merits (no database, no accounts, nothing
+a bad deploy can corrupt) and is kept here so nobody "simplifies" it back
+without knowing it was already argued: **process consistency beat
+minimalism, deliberately.**
 
 ## Working With Sam
 
