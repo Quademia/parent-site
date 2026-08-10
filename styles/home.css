@@ -1,0 +1,207 @@
+/* quademia-parent-site/styles/home.css
+ *
+ * The landing page. Split out of site.css when the home page stopped
+ * being a holding page (2026-08-10) — the repo convention is that a new
+ * domain gets its own file rather than site.css growing forever.
+ *
+ * Width note: this deliberately lives inside the existing 720px
+ * `.qp-main`, rather than widening it. Widening the shared container
+ * would have shifted the two legal pages as a side effect, and a landing
+ * page reads perfectly well at 720 with a two-column product grid. If a
+ * future page genuinely needs more room, give it a breakout wrapper —
+ * don't change the shell for everyone.
+ *
+ * Mobile matters for the same reason it does in the products: the
+ * audience is phone-first. Breakpoint 768px, matching mynclex.
+ */
+
+/* ─────────────────────────────────────────────────────
+ * Hero
+ * ───────────────────────────────────────────────────── */
+
+.qp-hero {
+  padding-bottom: 8px;
+}
+
+.qp-lede {
+  font-size: 34px;
+  line-height: 1.2;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  color: var(--primary);
+  margin-bottom: 18px;
+}
+
+.qp-sub {
+  font-size: 17.5px;
+  line-height: 1.6;
+  color: var(--text-muted);
+  max-width: 56ch;
+}
+
+/* ─────────────────────────────────────────────────────
+ * Section headings
+ * ───────────────────────────────────────────────────── */
+
+.qp-section-label {
+  margin-top: 56px;
+  margin-bottom: 16px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* The hairline that runs on from the label to the edge. */
+.qp-section-label::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+
+/* ─────────────────────────────────────────────────────
+ * Product grid
+ *
+ * Two columns on desktop, one on phones. Cards are equal height so a
+ * longer description doesn't leave a ragged row.
+ * ───────────────────────────────────────────────────── */
+
+.qp-products {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+/* Shared card body. `a.qp-prod` is a live product; `div.qp-prod` is one
+   that isn't reachable yet — same shape, quieter, and not clickable. */
+.qp-prod {
+  display: flex;
+  flex-direction: column;
+  padding: 22px 22px 20px;
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease,
+              transform 0.15s ease;
+}
+
+a.qp-prod:hover,
+a.qp-prod:focus-visible {
+  text-decoration: none;
+  border-color: var(--accent);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-1px);
+}
+
+a.qp-prod:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.qp-prod-for {
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 7px;
+}
+
+.qp-prod-name {
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--primary);
+  letter-spacing: -0.01em;
+  margin-bottom: 7px;
+}
+
+.qp-prod-desc {
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--text-muted);
+  /* Pushes any meta line to the bottom so cards align. */
+  flex: 1;
+}
+
+/* The honest footnote: where a link actually lands, or that a product
+   isn't open yet. Never decorative — if there's nothing true to say
+   here, the element is omitted entirely. */
+.qp-prod-meta {
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border);
+  font-size: 12.5px;
+  line-height: 1.5;
+  color: var(--text-faint);
+}
+
+/* Not-yet-open card: same footprint, less pull. */
+.qp-prod--soon {
+  background: transparent;
+  box-shadow: none;
+  border-style: dashed;
+}
+
+.qp-prod--soon .qp-prod-name,
+.qp-prod--soon .qp-prod-for {
+  color: var(--text-muted);
+}
+
+/* ─────────────────────────────────────────────────────
+ * The name — why "Quademia"
+ *
+ * The brand doc marks this as the approved public story, and there is no
+ * About page yet, so the home page is where the name gets explained.
+ * ───────────────────────────────────────────────────── */
+
+.qp-name-note {
+  margin-top: 22px;
+  padding: 20px 22px;
+  background: var(--primary-light);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  font-size: 15px;
+  line-height: 1.65;
+  color: var(--text);
+}
+
+.qp-name-note strong {
+  font-weight: 700;
+  color: var(--primary);
+}
+
+/* ─────────────────────────────────────────────────────
+ * Contact
+ * ───────────────────────────────────────────────────── */
+
+.qp-contact {
+  margin-top: 22px;
+  font-size: 15px;
+  color: var(--text-muted);
+}
+
+.qp-contact a {
+  font-weight: 600;
+}
+
+/* ─────────────────────────────────────────────────────
+ * Phones
+ * ───────────────────────────────────────────────────── */
+
+@media (max-width: 768px) {
+  .qp-lede { font-size: 27px; }
+  .qp-sub { font-size: 16px; }
+
+  .qp-products { grid-template-columns: minmax(0, 1fr); }
+
+  .qp-section-label { margin-top: 44px; }
+
+  .qp-prod { padding: 18px 18px 16px; }
+  .qp-name-note { padding: 17px 18px; font-size: 14.5px; }
+}

@@ -9,12 +9,16 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import '@/styles/tokens.css';
 import '@/styles/site.css';
+import '@/styles/home.css';
 import './globals.css';
 
+// The default for any page that doesn't set its own. The home page and both
+// legal pages override it. "and schools" was added 2026-08-10 with the
+// landing page — the family is four products, not two audiences.
 export const metadata: Metadata = {
   title: 'Quademia',
   description:
-    'Quademia builds exam-preparation and licensure products for nurses and teachers.',
+    'Quademia builds exam-preparation and licensure products for nurses, teachers and schools.',
 };
 
 export default function RootLayout({

@@ -60,61 +60,11 @@
   gap: 18px;
 }
 
-/* ─────────────────────────────────────────────────────
- * Home
- * ───────────────────────────────────────────────────── */
-
-.qp-lede {
-  font-size: 30px;
-  line-height: 1.25;
-  font-weight: 700;
-  letter-spacing: -0.02em;
-  color: var(--text);
-  margin-bottom: 16px;
-}
-
-.qp-sub {
-  font-size: 17px;
-  color: var(--text-muted);
-  max-width: 54ch;
-}
-
-.qp-section-label {
-  margin-top: 52px;
-  margin-bottom: 14px;
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 0.09em;
-  text-transform: uppercase;
-  color: var(--text-faint);
-}
-
-.qp-card {
-  display: block;
-  padding: 20px 22px;
-  background: var(--white);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow);
-  transition: border-color 0.15s ease, box-shadow 0.15s ease;
-}
-.qp-card:hover {
-  text-decoration: none;
-  border-color: var(--accent);
-  box-shadow: var(--shadow-md);
-}
-
-.qp-card-name {
-  font-size: 16px;
-  font-weight: 700;
-  color: var(--primary);
-  margin-bottom: 4px;
-}
-
-.qp-card-desc {
-  font-size: 14px;
-  color: var(--text-muted);
-}
+/* ⓘ The home page's styles moved to styles/home.css on 2026-08-10, when it
+ * stopped being a holding page. `.qp-lede`, `.qp-sub`, `.qp-section-label`
+ * and the old `.qp-card` family lived here; the card rules were replaced
+ * outright by the `.qp-prod` grid rather than carried over. This file now
+ * holds only what every page shares — the shell — plus the legal pages. */
 
 /* ─────────────────────────────────────────────────────
  * Legal pages (placeholder state)
@@ -145,8 +95,6 @@
 
 @media (max-width: 768px) {
   .qp-main { padding: 40px 20px 56px; }
-  .qp-lede { font-size: 25px; }
-  .qp-sub { font-size: 16px; }
   .qp-page-title { font-size: 23px; }
   .qp-footer { justify-content: flex-start; }
 }
