@@ -52,33 +52,52 @@
       "name": "quademia-parent-site",
       "account_id": "38efec172a6a35b1928ffbd96003c21d",
 
-      // Same reasoning as dev, opposite intent: `true` for now so the
-      // workers.dev address gives us somewhere to verify the live build
-      // BEFORE quademia.com points at anything.
-      "workers_dev": true
+      // ⭐ ONE CANONICAL ADDRESS. Closed in the same change that opens the
+      // custom domain below — deliberately, and stated rather than
+      // inherited. wrangler would have flipped this to false by itself the
+      // moment `routes` appeared; on mynclex that silent default closed an
+      // address the plan had wanted kept open for one release. Here the
+      // intent and the default happen to agree, and the file says so.
+      //
+      // ⓘ The workers.dev address served its purpose — it is what the live
+      // build was verified on, before quademia.com pointed at anything. To
+      // reopen it for debugging, set this to `true` and redeploy. It is a
+      // config flag, not a rebuild, and not a one-way door.
+      "workers_dev": false,
 
-      // ⏭ THE DOMAIN, ATTACHED IN A LATER COMMIT — deliberately not yet.
-      // A half-built site should never be the thing answering at the
-      // company's own address. Once the prod workers.dev URL is verified,
-      // add here:
-      //
-      //   "routes": [
-      //     { "pattern": "quademia.com",     "custom_domain": true },
-      //     { "pattern": "www.quademia.com", "custom_domain": true }
-      //   ],
-      //
-      // and flip this environment's "workers_dev" to false in the same
-      // change — one canonical address, no second URL to leak into a link
-      // or a bookmark.
+      // THE FRONT DOOR. The first time the company name resolves to
+      // anything.
       //
       // `custom_domain: true` means wrangler does the whole job on deploy:
       // creates the DNS record on the zone and provisions the TLS
-      // certificate, nothing to add by hand. ⓘ That needs a deploy token
-      // carrying ZONE permission, not just Workers permission, because it
-      // writes DNS. A Workers-only token fails here with an authorization
-      // error and the cause is not obvious; the fallback is to add the
-      // domain in the dashboard (Workers → quademia-parent-site →
-      // Settings → Domains & Routes) and leave this block out.
+      // certificate, nothing to add by hand.
+      //
+      // ⭐ THIS ONLY WORKS BECAUSE THE ZONE AND THE WORKER ARE ON THE SAME
+      // CLOUDFLARE ACCOUNT. Cloudflare will not route a custom domain to a
+      // Worker across accounts, which is why quademia.com was bought on the
+      // workspace account (2026-08-05) and why the dev Worker above can
+      // never carry it.
+      //
+      // ⓘ Needs a deploy token carrying ZONE permission, not just Workers
+      // permission, because attaching a domain writes DNS. A Workers-only
+      // token fails here with an authorization error that does not explain
+      // itself; the fallback is to add the domain in the dashboard
+      // (Workers → quademia-parent-site → Settings → Domains & Routes) and
+      // drop this block.
+      //
+      // ⓘ `www` is here so the name works however someone types it. Both
+      // resolve to the same site; if a canonical redirect is ever wanted,
+      // that is a Cloudflare redirect rule, not a change to this file.
+      "routes": [
+        {
+          "pattern": "quademia.com",
+          "custom_domain": true
+        },
+        {
+          "pattern": "www.quademia.com",
+          "custom_domain": true
+        }
+      ]
     }
   }
 }
