@@ -1,0 +1,71 @@
+{
+  // This file tells Cloudflare Workers how to run the Quademia parent
+  // site. "main" points at the OpenNext worker entry point.
+  "name": "quademia-parent-site",
+  "main": ".open-next/worker.js",
+  "compatibility_date": "2024-09-23",
+  "compatibility_flags": ["nodejs_compat"],
+
+  // ⭐ ONE ENVIRONMENT, ON PURPOSE — unlike the mynclex repo, which splits
+  // dev and prod across two Cloudflare accounts because a bad release there
+  // can reach real accounts, real payments and a real database. This site
+  // has none of those: no database, no login, no secrets. `npm run dev` on
+  // localhost is the test environment, and a failed build leaves the last
+  // good deployment serving. A second deployed copy would be ceremony, not
+  // safety. Revisit only if this site ever grows a login (cross-product
+  // SSO is the one candidate — see the mynclex repo's
+  // docs/product-plan/domain-and-identity.md, build order item 7).
+  //
+  // The account is the WORKSPACE Cloudflare account (qacademynurses) —
+  // the same one that owns the prod mynclex Worker AND the quademia.com
+  // DNS zone. That is not a preference: Cloudflare will not route a custom
+  // domain to a Worker across accounts, and quademia.com was bought on this
+  // account (2026-08-05) precisely so it wouldn't have to be.
+  //
+  // Pinning the id means wrangler refuses to deploy if the credentials it
+  // is handed belong to some other account. Account ids are identifiers,
+  // not secrets — safe to commit.
+  "account_id": "38efec172a6a35b1928ffbd96003c21d",
+
+  "assets": {
+    "directory": ".open-next/assets",
+    "binding": "ASSETS"
+  },
+
+  // ⭐⭐ STATED, NOT INHERITED — this line is the lesson of the mynclex
+  // 2026-08-09 release, and it is written out here so this repo never
+  // repeats it.
+  //
+  // `workers_dev` defaults to TRUE for a Worker with no routes, and FLIPS
+  // to false the moment a `routes` block exists. On mynclex that default
+  // change closed the workers.dev address in the very same deploy that
+  // opened the custom domain — the opposite of the two-step the plan had
+  // called for, with nothing in the config saying so.
+  //
+  // So: `true` for now, deliberately. It gives us
+  // quademia-parent-site.qacademynurses.workers.dev to prove the site on
+  // BEFORE quademia.com points at anything. When the domain is attached
+  // (see the block below), this becomes `false` in the same commit — one
+  // canonical address, no second URL to leak into a link or a bookmark.
+  "workers_dev": true
+
+  // ⏭ THE DOMAIN, ATTACHED IN A LATER COMMIT — deliberately not yet.
+  // A half-built site should never be the thing answering at the company's
+  // own address. Once the workers.dev URL above is verified, add:
+  //
+  //   "routes": [
+  //     { "pattern": "quademia.com",     "custom_domain": true },
+  //     { "pattern": "www.quademia.com", "custom_domain": true }
+  //   ],
+  //
+  // and flip "workers_dev" to false in the same change.
+  //
+  // `custom_domain: true` means wrangler does the whole job on deploy —
+  // creates the DNS record on the zone and provisions the TLS certificate,
+  // nothing to add by hand. ⓘ That needs a deploy token carrying ZONE
+  // permission, not just Workers permission, because it writes DNS. If the
+  // token is Workers-only the deploy fails with an authorization error and
+  // the cause is not obvious; the fallback is to add the domain in the
+  // dashboard (Workers → quademia-parent-site → Settings → Domains &
+  // Routes) and leave this block out.
+}

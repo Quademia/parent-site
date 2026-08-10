@@ -1,0 +1,152 @@
+/* quademia-parent-site/styles/site.css
+ *
+ * The whole site's layout, for now. One stylesheet is right while there
+ * are three pages; split by domain (nav.css, legal.css, …) the moment
+ * that stops being true — same convention as the mynclex repo, where
+ * every new domain gets its own file rather than appending forever.
+ *
+ * Mobile matters here for the same reason it matters in the products:
+ * the audience is phone-first. Breakpoint is 768px, matching mynclex.
+ */
+
+/* ─────────────────────────────────────────────────────
+ * Shell — header, main, footer stacked full height
+ * ───────────────────────────────────────────────────── */
+
+.qp-shell {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.qp-header {
+  padding: 22px 24px;
+  border-bottom: 1px solid var(--border);
+  background: var(--white);
+}
+
+.qp-wordmark {
+  font-size: 19px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--primary);
+}
+.qp-wordmark:hover { text-decoration: none; }
+
+.qp-main {
+  flex: 1;
+  width: 100%;
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 64px 24px 80px;
+}
+
+.qp-footer {
+  border-top: 1px solid var(--border);
+  background: var(--white);
+  padding: 20px 24px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 20px;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+.qp-footer-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px;
+}
+
+/* ─────────────────────────────────────────────────────
+ * Home
+ * ───────────────────────────────────────────────────── */
+
+.qp-lede {
+  font-size: 30px;
+  line-height: 1.25;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--text);
+  margin-bottom: 16px;
+}
+
+.qp-sub {
+  font-size: 17px;
+  color: var(--text-muted);
+  max-width: 54ch;
+}
+
+.qp-section-label {
+  margin-top: 52px;
+  margin-bottom: 14px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+}
+
+.qp-card {
+  display: block;
+  padding: 20px 22px;
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+.qp-card:hover {
+  text-decoration: none;
+  border-color: var(--accent);
+  box-shadow: var(--shadow-md);
+}
+
+.qp-card-name {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--primary);
+  margin-bottom: 4px;
+}
+
+.qp-card-desc {
+  font-size: 14px;
+  color: var(--text-muted);
+}
+
+/* ─────────────────────────────────────────────────────
+ * Legal pages (placeholder state)
+ * ───────────────────────────────────────────────────── */
+
+.qp-page-title {
+  font-size: 27px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin-bottom: 20px;
+}
+
+.qp-notice {
+  padding: 18px 20px;
+  background: var(--primary-light);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text);
+}
+
+.qp-notice strong { font-weight: 700; }
+
+.qp-notice p + p { margin-top: 10px; }
+
+/* ─────────────────────────────────────────────────────
+ * Phones
+ * ───────────────────────────────────────────────────── */
+
+@media (max-width: 768px) {
+  .qp-main { padding: 40px 20px 56px; }
+  .qp-lede { font-size: 25px; }
+  .qp-sub { font-size: 16px; }
+  .qp-page-title { font-size: 23px; }
+  .qp-footer { justify-content: flex-start; }
+}

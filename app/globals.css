@@ -1,0 +1,12 @@
+@import "tailwindcss";
+
+/* quademia-parent-site/app/globals.css
+ *
+ * Workspace-wide globals. Kept intentionally tiny — the palette, the
+ * reset and the body rule live in styles/tokens.css, mirroring the
+ * mynclex repo's split.
+ *
+ * ⚠ Do NOT add a competing `body { background; color; }` rule here.
+ * On mynclex exactly that raced tokens.css on soft navigation and
+ * bfcache restore, and text briefly rendered in the wrong colour.
+ */

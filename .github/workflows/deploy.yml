@@ -1,0 +1,50 @@
+name: Deploy site (workspace CF)
+
+on:
+  push:
+    branches:
+      - main
+
+# One deploy at a time. A second push while one is in flight waits rather
+# than racing it.
+concurrency:
+  group: site-deploy
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    name: Deploy quademia-parent-site to workspace CF
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v5
+
+      - name: Set up Node
+        uses: actions/setup-node@v5
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm clean-install
+
+      # ⓘ NO `env:` BLOCK HERE, AND THAT IS THE POINT.
+      #
+      # The mynclex repo carries a long warning at this exact step: its
+      # `NEXT_PUBLIC_*` values are substituted into the browser bundle while
+      # `next build` runs, so listing them only in wrangler.jsonc (a RUNTIME
+      # binding) silently shipped a bundle with `undefined` in it for months.
+      #
+      # This site has no public env values, no keys and no database, so the
+      # trap does not exist here. If one is ever added, it must go in BOTH
+      # wrangler.jsonc AND an `env:` block on this step — read the mynclex
+      # deploy workflows before doing it.
+      - name: Build OpenNext bundle
+        run: npm run cf:build
+
+      - name: Deploy to workspace CF
+        uses: cloudflare/wrangler-action@v4
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          command: deploy
