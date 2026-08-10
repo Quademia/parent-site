@@ -65,6 +65,26 @@
       // config flag, not a rebuild, and not a one-way door.
       "workers_dev": false,
 
+      // ⭐ THE SAME LESSON, CAUGHT A SECOND TIME — and this one Cloudflare
+      // told us about during the deploy that attached the domain:
+      //
+      //   "Because your 'workers.dev' route is disabled and your
+      //    'preview_urls' setting is not in your Wrangler file, Preview
+      //    URLs will be disabled for this deployment by default."
+      //
+      // Another setting changing because of a value we did not write. It
+      // happens to be what we want — per-version preview URLs would be a
+      // third public address for a three-page site, and the dev Worker on
+      // `main` already gives us somewhere to look before releasing. But
+      // "happens to be what we want" is exactly how the mynclex
+      // workers_dev incident read too, right up until it wasn't. So it is
+      // written down.
+      //
+      // ⓘ Set to `true` if a single build ever needs a shareable URL
+      // without releasing it — reviewing the real legal text before it is
+      // public is the obvious candidate.
+      "preview_urls": false,
+
       // THE FRONT DOOR. The first time the company name resolves to
       // anything.
       //
