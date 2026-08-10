@@ -3,10 +3,20 @@
 The parent site for **quademia.com** — the company's own pages, which sit
 above and outlive any individual product.
 
-Today it is three pages: a holding page, `/privacy` and `/terms`. It is
+Today it is three pages: a landing page, `/privacy` and `/terms`. It is
 built as a full application rather than static files because nobody knows
 what it grows into, and one candidate is already written down: cross-product
 sign-in, where one Quademia account works across every product.
+
+⚠ **The privacy policy and terms of service are DRAFTS and are not in
+force.** Both pages carry a banner saying so. They must not be relied on,
+linked to as binding, or have the banner removed until three things are
+true: the company is registered (both documents name the controller /
+contracting party and leave it blank), a qualified professional has
+reviewed them, and Sam has settled the commercial blanks — refund
+windows, the liability cap, retention periods. Every outstanding decision
+renders as a highlighted `[like this]` on the page. Full detail in
+`CLAUDE.md` → *Current Status*.
 
 ## Stack
 

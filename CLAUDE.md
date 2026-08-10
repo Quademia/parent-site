@@ -1,7 +1,9 @@
 # CLAUDE.md — Quademia parent site
 
 Last updated: 2026-08-10 (repo created; dependencies taken to latest the
-same day — see *Versions* below)
+same day — see *Versions* below; privacy policy + terms of service
+**drafted** the same day, replacing the placeholders — see *Current
+Status*)
 
 ## What This Is
 
@@ -18,10 +20,39 @@ to be surgically removed. This repo is the answer to that.
 
 ## Current Status
 
-**Three pages: `/`, `/privacy`, `/terms`.** The legal pages are
-placeholders — the addresses exist so outside parties (Google's OAuth
-consent config, Cloudflare Turnstile, the payment provider) can record a
-URL that will not have to change. The documents themselves are pending.
+**Three pages: `/`, `/privacy`, `/terms`.** The addresses exist so outside
+parties (Google's OAuth consent config, Cloudflare Turnstile, the payment
+provider) can record a URL that will not have to change.
+
+**The legal pages now carry full DRAFT documents** (2026-08-10) rather
+than "coming soon" placeholders. Both render a prominent amber banner
+saying *Draft — not yet in force*, so a reader is not misled by an
+unreviewed document.
+
+⚠ **Three things must happen before either document goes live, and
+removing the draft banner without them would be the mistake:**
+
+1. **The company must be registered.** Both documents name the controller
+   / contracting party, and both leave it as a visible `[blank]`. A
+   privacy policy has to name a real legal person.
+2. **A professional must review them** (rule 4 below). They make claims
+   about payments and personal data belonging to nurses in Ghana, the US,
+   the UK and Canada.
+3. **Sam must settle the commercial blanks** — refund windows, the
+   "substantially used" threshold, the liability cap, retention periods.
+   These are deliberately left as visible blanks rather than filled with
+   plausible numbers, because an invented refund window is exactly the
+   clause a customer would later quote back at us.
+
+Every outstanding decision renders as a highlighted `[like this]` on the
+page, so an unfilled blank cannot survive a read-through. Search for
+`<Blank>` in `app/privacy/page.tsx` and `app/terms/page.tsx` to list them.
+
+ⓘ **Downstream, once the terms are in force:** the MyNclex checkout says
+"you agree to MyNclex's terms" with nothing to link to. That becomes a
+link to `https://quademia.com/terms` and should say *Quademia's* terms.
+That edit belongs in the mynclex repo and must not be made while the draft
+banner is still up.
 
 **Do not build brand pages, an About page or a product directory unless
 Sam explicitly asks.** They need brand decisions that have not been made.
@@ -41,11 +72,23 @@ Deliberately identical to MyNclex, so both migrate together:
 Flat, no `src/` wrapper — matching MyNclex.
 
 - `app/` — routes only. Each folder is a URL path.
+- `components/<domain>/` — visual pieces, grouped by domain. Added
+  2026-08-10 with the legal drafts (`components/legal/`), matching the
+  MyNclex convention so the two repos stay legible as one family.
 - `styles/` — all CSS, a top-level sibling of `app/`.
-- `.github/workflows/` — the single deploy workflow.
+- `.github/workflows/` — the two deploy workflows (dev + prod).
 
 New CSS domains get a new file rather than appending to `site.css`
-forever.
+forever. The legal pages took `styles/legal.css` on that rule.
+
+ⓘ **The two legal pages share one frame** (`components/legal/legal-doc.tsx`)
+rather than each hand-rolling a heading, a banner and a numbering scheme.
+That is rule 3 below applied one level down: two copies of the same
+chrome drift the first time only one of them is edited. Section numbers
+and every "see section N" cross-reference are **derived** from the
+sections array — inserting a clause renumbers the contents list, the
+headings and the cross-references together, and a reference to an unknown
+section throws at build time rather than shipping "section undefined".
 
 ## Non-Negotiable Rules
 
