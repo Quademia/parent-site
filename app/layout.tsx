@@ -1,4 +1,4 @@
-// quademia-parent-site/app/layout.tsx
+// parent-site/app/layout.tsx
 //
 // The whole site's shell — header, content, footer. There is only one
 // audience here (anyone on the internet), so unlike the mynclex repo

@@ -1,4 +1,4 @@
-# quademia-parent-site
+# parent-site
 
 The parent site for **quademia.com** — the company's own pages, which sit
 above and outlive any individual product.

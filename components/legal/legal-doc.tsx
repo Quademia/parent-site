@@ -1,4 +1,4 @@
-// quademia-parent-site/components/legal/legal-doc.tsx
+// parent-site/components/legal/legal-doc.tsx
 //
 // The shared frame both legal documents render into: title, draft
 // banner, dates, contents list, numbered sections, footer.

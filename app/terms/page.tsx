@@ -1,4 +1,4 @@
-// quademia-parent-site/app/terms/page.tsx
+// parent-site/app/terms/page.tsx
 //
 // The terms of service — DRAFT, replacing the placeholder. Same two
 // rules as the privacy page next door: one Quademia document covering

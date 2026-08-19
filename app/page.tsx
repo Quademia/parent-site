@@ -1,4 +1,4 @@
-// quademia-parent-site/app/page.tsx
+// parent-site/app/page.tsx
 //
 // The landing page for quademia.com.
 //

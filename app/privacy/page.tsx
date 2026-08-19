@@ -1,4 +1,4 @@
-// quademia-parent-site/app/privacy/page.tsx
+// parent-site/app/privacy/page.tsx
 //
 // The privacy policy — DRAFT, replacing the placeholder that held this
 // address open. The two rules the placeholder left behind still stand
